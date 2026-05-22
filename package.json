@@ -13,9 +13,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/tanjim-rahat/NLWD-Assignment-2/issues"
   },
-  "homepage": "https://github.com/tanjim-rahat/NLWD-Assignment-2#readme"
+  "homepage": "https://github.com/tanjim-rahat/NLWD-Assignment-2#readme",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  }
 }
