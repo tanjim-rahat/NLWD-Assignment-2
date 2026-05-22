@@ -1,0 +1,21 @@
+{
+  "name": "devpulse",
+  "version": "1.0.0",
+  "description": "Internal Tech Issue & Feature Tracker. A collaborative platform for software teams to report bugs, suggest features, and coordinate resolutions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanjim-rahat/NLWD-Assignment-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tanjim-rahat/NLWD-Assignment-2/issues"
+  },
+  "homepage": "https://github.com/tanjim-rahat/NLWD-Assignment-2#readme"
+}
