@@ -1,11 +1,9 @@
-import express, {
-  type Application,
-  type Request,
-  type Response,
-} from "express";
+import express, { type Application } from "express";
 
-import { initDB } from "./database/connection";
-import AuthRouter from "./routes/auth";
+import AuthRouter from "@/modules/auth/auth.route";
+import IssuesRouter from "@/modules/issues/issues.route";
+
+import { initDB } from "@/database/connection";
 
 initDB();
 
@@ -13,11 +11,8 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 app.use("/api/auth", AuthRouter);
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, World!");
-});
+app.use("/api/issues", IssuesRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
