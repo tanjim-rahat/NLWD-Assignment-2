@@ -78,3 +78,28 @@ export const createIssue = async (req: Request, res: Response) => {
     data: result.rows[0],
   });
 };
+
+export const deleteIssue = async (req: Request, res: Response) => {
+  if (req.user?.role !== "maintainer") {
+    return res.status(403).json({
+      success: false,
+      message: "Only maintainers can delete issues",
+    });
+  }
+
+  const { id } = req.params;
+
+  const result = await pool.query("DELETE FROM issues WHERE id = $1", [id]);
+
+  if (result.rows.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "Issue not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Issue deleted successfully",
+  });
+};
