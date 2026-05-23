@@ -5,6 +5,7 @@ import {
   getIssues,
   getIssue,
   createIssue,
+  updateIssue,
   deleteIssue,
 } from "./issues.controller";
 
@@ -16,7 +17,7 @@ router.get("/", getIssues);
 router.get("/:id", getIssue);
 
 router.post("/", auth, createIssue);
-
+router.patch("/:id", auth, updateIssue);
 router.delete("/:id", auth, deleteIssue);
 
 export default router;
