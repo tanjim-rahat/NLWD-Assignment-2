@@ -31,6 +31,25 @@ export const getIssues = async (req: Request, res: Response) => {
   });
 };
 
+export const getIssue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await pool.query("SELECT * FROM issues WHERE id = $1", [id]);
+
+  if (result.rows.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "Issue not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Issue retrieved successfully",
+    data: result.rows[0],
+  });
+};
+
 export const createIssue = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({
