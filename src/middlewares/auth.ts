@@ -3,11 +3,7 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import config from "@/config";
 import { pool } from "@/database/connection";
 
-export const verifyToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const auth = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader?.split(" ")[1];
 
@@ -21,9 +17,10 @@ export const verifyToken = async (
   const payload = jwt.verify(token, config.JWT_SECRET) as JwtPayload;
 
   // check if user exists in the database
-  const query = await pool.query("SELECT * FROM users WHERE id = ?", [
-    payload.id,
-  ]);
+  const query = await pool.query(
+    "SELECT id, email, name, role FROM users WHERE id = $1",
+    [payload.id],
+  );
 
   if (query.rows.length === 0) {
     return res.status(401).json({
@@ -36,3 +33,5 @@ export const verifyToken = async (
 
   next();
 };
+
+export default auth;
