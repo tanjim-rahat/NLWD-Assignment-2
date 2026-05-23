@@ -1,13 +1,13 @@
 import express from "express";
 import { type Router, type Request, type Response } from "express";
 import auth from "@/middlewares/auth";
-import { createIssue } from "./issues.controller";
+import { getIssues, createIssue } from "./issues.controller";
 
 const router: Router = express.Router();
 
 router.use(express.json());
-router.use(auth);
 
-router.post("/", createIssue);
+router.get("/", getIssues);
+router.post("/", auth, createIssue);
 
 export default router;

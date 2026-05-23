@@ -1,6 +1,36 @@
 import type { Request, Response } from "express";
 import { pool } from "@/database/connection";
 
+export const getIssues = async (req: Request, res: Response) => {
+  const {
+    sort = "newest",
+    type,
+    status,
+  }: { sort?: string; type?: string; status?: string } = req.query;
+
+  let query = "SELECT * FROM issues";
+
+  if (type) {
+    query += ` WHERE type = '${type}'`;
+  }
+
+  if (status) {
+    query += type ? ` AND status = '${status}'` : ` WHERE status = '${status}'`;
+  }
+
+  if (sort && ["newest", "oldest"].includes(sort)) {
+    query += ` ORDER BY created_at ${sort === "newest" ? "DESC" : "ASC"}`;
+  }
+
+  const result = await pool.query(query);
+
+  return res.status(200).json({
+    success: true,
+    message: "Issues retrieved successfully",
+    data: result.rows,
+  });
+};
+
 export const createIssue = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({
