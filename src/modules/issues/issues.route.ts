@@ -1,6 +1,5 @@
-import express from "express";
-import { type Router, type Request, type Response } from "express";
-import auth from "@/middlewares/auth";
+import express, { type Router } from "express";
+import auth from "../../middlewares/auth";
 import {
   getIssues,
   getIssue,

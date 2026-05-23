@@ -4,13 +4,7 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-
-    // Path mapping
-    "paths": {
-      "@/*": ["./src/*"],
-      "@": ["./src"]
-    },
-
+    
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",

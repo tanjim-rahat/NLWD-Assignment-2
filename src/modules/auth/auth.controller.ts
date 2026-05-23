@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import config from "@/config/index";
-import { pool } from "@/database/connection";
-import { isValidRole } from "@/utils";
+import config from "../../config/index";
+import { pool } from "../../database/connection";
+import { isValidRole } from "../../utils";
 
 export const signup = async (req: Request, res: Response) => {
   if (!req.body) {

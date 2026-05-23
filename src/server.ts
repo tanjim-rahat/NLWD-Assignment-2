@@ -1,9 +1,9 @@
 import express, { type Application } from "express";
 
-import AuthRouter from "@/modules/auth/auth.route";
-import IssuesRouter from "@/modules/issues/issues.route";
+import AuthRouter from "./modules/auth/auth.route";
+import IssuesRouter from "./modules/issues/issues.route";
 
-import { initDB } from "@/database/connection";
+import { initDB } from "./database/connection";
 
 initDB();
 

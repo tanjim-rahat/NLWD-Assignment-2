@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
-import config from "@/config";
-import { pool } from "@/database/connection";
+import config from "../config";
+import { pool } from "../database/connection";
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];

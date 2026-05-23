@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { pool } from "@/database/connection";
-import { isValidStatus, isValidType } from "@/utils";
+import { pool } from "../../database/connection";
+import { isValidStatus, isValidType } from "../../utils";
 
 export const getIssues = async (req: Request, res: Response) => {
   const {
