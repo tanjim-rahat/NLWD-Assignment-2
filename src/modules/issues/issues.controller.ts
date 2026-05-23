@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { pool } from "@/database/connection";
+import { isValidStatus, isValidType } from "@/utils";
 
 export const getIssues = async (req: Request, res: Response) => {
   const {
@@ -10,11 +11,11 @@ export const getIssues = async (req: Request, res: Response) => {
 
   let query = "SELECT * FROM issues";
 
-  if (type) {
+  if (type && isValidType(type)) {
     query += ` WHERE type = '${type}'`;
   }
 
-  if (status) {
+  if (status && isValidStatus(status)) {
     query += type ? ` AND status = '${status}'` : ` WHERE status = '${status}'`;
   }
 
@@ -67,6 +68,13 @@ export const createIssue = async (req: Request, res: Response) => {
     });
   }
 
+  if (!isValidType(type)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid issue type",
+    });
+  }
+
   const result = await pool.query(
     "INSERT INTO issues (title, description, type, reporter_id) VALUES ($1, $2, $3, $4) RETURNING *",
     [title, description, type, req.user?.id],
@@ -90,6 +98,20 @@ export const updateIssue = async (req: Request, res: Response) => {
   }
 
   const { title, description, type, status } = req.body;
+
+  if (type && !isValidType(type)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid issue type",
+    });
+  }
+
+  if (status && !isValidStatus(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid issue status",
+    });
+  }
 
   const queryResult = await pool.query("SELECT * FROM issues WHERE id = $1", [
     id,

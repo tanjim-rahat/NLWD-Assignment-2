@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "@/config/index";
 import { pool } from "@/database/connection";
+import { isValidRole } from "@/utils";
 
 export const signup = async (req: Request, res: Response) => {
   if (!req.body) {
@@ -26,6 +27,13 @@ export const signup = async (req: Request, res: Response) => {
     });
   }
 
+  if (!isValidRole(role)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid role. Valid roles are: maintainer, contributor",
+    });
+  }
+
   // check if user already exists
   const existingUser = await pool.query(
     "SELECT * FROM users WHERE email = $1",
@@ -44,27 +52,18 @@ export const signup = async (req: Request, res: Response) => {
 
   // insert user into database
   const result = await pool.query(
-    "INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)",
+    "INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, name, email, role, created_at, updated_at",
     [name, email, hashedPassword, role],
   );
 
   res.json({
     success: true,
     message: "User registered successfully!",
-    data: {
-      id: result.rows[0]?.id,
-      name,
-      email,
-      role,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
+    data: result.rows[0],
   });
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log(req.headers);
-
   if (!req.body) {
     return res.status(400).json({
       success: false,
